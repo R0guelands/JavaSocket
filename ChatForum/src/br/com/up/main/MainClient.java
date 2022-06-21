@@ -9,10 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;   
 
 public class MainClient {
+
+    private static final String hostIP = "localhost";
+
     public static void main(String[] args) throws Exception {
 
         ObjectOutputStream inputToServer = null;
-        Socket socket = new Socket("192.168.18.5", 9876);
+        Socket socket = new Socket(hostIP, 9876);
         Scanner scanner = new Scanner(System.in);
         ClientInit cliente = new ClientInit(socket);
 
