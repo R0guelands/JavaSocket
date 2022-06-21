@@ -14,8 +14,8 @@ public class MainServer {
 
         ServerSocket server = new ServerSocket(port);
         ArrayList<Socket> allConnections = new ArrayList<Socket>();
-        ServerChat servidorChat = new ServerChat(allConnections);
 
+        ServerChat servidorChat = new ServerChat(allConnections);
         servidorChat.start();
 
         while (true) {
