@@ -7,9 +7,10 @@ import br.com.up.server.ServerChat;
 import br.com.up.server.ServerInit;
 
 public class MainServer {
-    public static void main(String[] args) throws Exception {
 
-        int port = 9876;
+    private static final int port = 9876;
+
+    public static void main(String[] args) throws Exception {
 
         ServerSocket server = new ServerSocket(port);
         ArrayList<Socket> allConnections = new ArrayList<Socket>();

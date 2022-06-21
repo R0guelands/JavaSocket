@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 public class MainClient {
 
     private static final String hostIP = "localhost";
+    private static final int port = 9876;
 
     public static void main(String[] args) throws Exception {
 
         ObjectOutputStream inputToServer = null;
-        Socket socket = new Socket(hostIP, 9876);
+        Socket socket = new Socket(hostIP, port);
         Scanner scanner = new Scanner(System.in);
         ClientInit cliente = new ClientInit(socket);
 
@@ -45,7 +46,7 @@ public class MainClient {
                 inputToServer.close();
                 socket.close();
                 scanner.close();
-                
+
                 break;
 
             }
