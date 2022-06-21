@@ -1,4 +1,4 @@
-package br.com.up.mainClient;
+package br.com.up.main;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -12,16 +12,14 @@ public class MainClient {
         ObjectOutputStream inputToServer = null;
         Socket socket = new Socket("192.168.18.5", 9876);
         Scanner scanner = new Scanner(System.in);
-
         ClientSocket cliente = new ClientSocket(socket);
+
         cliente.start();
 
         while (true) {
 
             inputToServer = new ObjectOutputStream(socket.getOutputStream());
-
             String messageToServer = scanner.nextLine();
-
             inputToServer.writeObject(messageToServer);
 
             if (messageToServer.equals("exit")) {
