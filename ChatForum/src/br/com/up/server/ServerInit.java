@@ -39,7 +39,7 @@ public class ServerInit extends Thread{
 
                     JSONObject message = new JSONObject();
                     message.put("Identificador", "Server");
-                    message.put("Mensagem", "Seja bem vindo ao servidor. Pessoas online: " + allConnections.size());
+                    message.put("Mensagem", "Seja bem vindo ao servidor. Digite 'exit' para encerrar sua conexão. Pessoas online: " + allConnections.size());
                     message.put("Data", dtf.format(now));
 
                     outputToClient = new ObjectOutputStream(socket.getOutputStream());
@@ -59,12 +59,15 @@ public class ServerInit extends Thread{
                 if(messageFromClient.equalsIgnoreCase("exit")) {
                     inputFromClient.close();
                     outputToClient.close();
+                    allConnections.remove(socket);
                     socket.close();   
                     System.out.println("Client disconnected: " + socket.getInetAddress()); 
+                    int threads = java.lang.Thread.activeCount() - 1;
+                    System.out.println("Threads: " + threads);
                     return;
                 }
 
-                System.out.println("{ " + dateFromClient + " } " + nameFromClient + ": " + messageFromClient);
+                System.out.println("\n{ " + dateFromClient + " } " + nameFromClient + ": " + messageFromClient + "\n");
 
                 for(Socket s : allConnections){
                     if (s != socket) {
@@ -83,7 +86,12 @@ public class ServerInit extends Thread{
             }
 
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Client " + socket.getInetAddress() + " disconnected using the wrong method.");
             System.out.println(e);
+            int threads = java.lang.Thread.activeCount() - 1;
+            System.out.println("Threads: " + threads);
+            allConnections.remove(socket);
+            return;
         } catch (JSONException e) {
 
             try {
@@ -101,15 +109,20 @@ public class ServerInit extends Thread{
 
                 outputToClient.close();
                 inputFromClient.close();
+                allConnections.remove(socket);
                 socket.close();   
                 System.out.println("Client disconnected: " + socket.getInetAddress()); 
+                int threads = java.lang.Thread.activeCount() - 1;
+                System.out.println("Threads: " + threads);
                 return;
 
             } catch (JSONException | IOException exception) {
                 System.out.println(exception);
             }
             
-        }
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+         }
 
     }
 

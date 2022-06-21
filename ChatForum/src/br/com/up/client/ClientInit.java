@@ -32,7 +32,7 @@ public class ClientInit extends Thread {
                 String dateFromServer = objectFromServer.getString("Data");
                 String nameFromServer = objectFromServer.getString("Identificador");                
 
-                System.out.println("{ " + dateFromServer + " } " + nameFromServer + ": " + messageFromServer);
+                System.out.println("\n{ " + dateFromServer + " } " + nameFromServer + ": " + messageFromServer + "\n");
 
             }
 
