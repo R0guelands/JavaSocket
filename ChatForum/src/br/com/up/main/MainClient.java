@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 public class MainClient {
 
-    private static final String hostIP = "localhost";
-    private static final int port = 9876;
+    private static final String hostIP = "25.82.58.210";
+    private static final int port = 1234;
 
     public static void main(String[] args) throws Exception {
 

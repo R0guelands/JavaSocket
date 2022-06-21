@@ -58,10 +58,7 @@ public class ServerInit extends Thread{
 
                 if(messageFromClient.equalsIgnoreCase("exit")) {
 
-                    inputFromClient.close();
-                    outputToClient.close();
                     allConnections.remove(socket);
-                    socket.close();   
 
                     System.out.println("Client disconnected: " + socket.getInetAddress()); 
                     int threads = java.lang.Thread.activeCount() - 1;
@@ -94,7 +91,6 @@ public class ServerInit extends Thread{
         } catch (IOException | ClassNotFoundException e) {
 
             System.out.println("Client " + socket.getInetAddress() + " disconnected using the wrong method.");
-            System.out.println(e);
 
             int threads = java.lang.Thread.activeCount() - 1;
             System.out.println("Threads: " + threads);
@@ -118,10 +114,7 @@ public class ServerInit extends Thread{
                 outputToClient = new ObjectOutputStream(socket.getOutputStream());
                 outputToClient.writeObject(message.toString());
 
-                outputToClient.close();
-                inputFromClient.close();
                 allConnections.remove(socket);
-                socket.close();   
 
                 System.out.println("Client disconnected: " + socket.getInetAddress()); 
                 int threads = java.lang.Thread.activeCount() - 1;

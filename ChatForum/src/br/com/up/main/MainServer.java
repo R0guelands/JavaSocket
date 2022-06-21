@@ -1,5 +1,6 @@
 package br.com.up.main;
 
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -8,12 +9,16 @@ import br.com.up.server.ServerInit;
 
 public class MainServer {
 
-    private static final int port = 9876;
+    private static final int port = 1234;
 
     public static void main(String[] args) throws Exception {
 
         ServerSocket server = new ServerSocket(port);
+
         ArrayList<Socket> allConnections = new ArrayList<Socket>();
+        InetAddress inet = server.getInetAddress();
+
+        System.out.println("HostAddress="+inet.getHostAddress());
 
         ServerChat servidorChat = new ServerChat(allConnections);
         servidorChat.start();
