@@ -57,19 +57,24 @@ public class ServerInit extends Thread{
                 String dateFromClient = objectFromClient.getString("Data");
 
                 if(messageFromClient.equalsIgnoreCase("exit")) {
+
                     inputFromClient.close();
                     outputToClient.close();
                     allConnections.remove(socket);
                     socket.close();   
+
                     System.out.println("Client disconnected: " + socket.getInetAddress()); 
                     int threads = java.lang.Thread.activeCount() - 1;
                     System.out.println("Threads: " + threads);
+
                     return;
+
                 }
 
                 System.out.println("\n{ " + dateFromClient + " } " + nameFromClient + ": " + messageFromClient + "\n");
 
                 for(Socket s : allConnections){
+
                     if (s != socket) {
 
                         JSONObject message = new JSONObject();
@@ -81,17 +86,23 @@ public class ServerInit extends Thread{
                         outputToClient.writeObject(message.toString());
 
                     }
+                    
                 }
 
             }
 
         } catch (IOException | ClassNotFoundException e) {
+
             System.out.println("Client " + socket.getInetAddress() + " disconnected using the wrong method.");
             System.out.println(e);
+
             int threads = java.lang.Thread.activeCount() - 1;
             System.out.println("Threads: " + threads);
+
             allConnections.remove(socket);
+
             return;
+
         } catch (JSONException e) {
 
             try {
@@ -111,17 +122,23 @@ public class ServerInit extends Thread{
                 inputFromClient.close();
                 allConnections.remove(socket);
                 socket.close();   
+
                 System.out.println("Client disconnected: " + socket.getInetAddress()); 
                 int threads = java.lang.Thread.activeCount() - 1;
                 System.out.println("Threads: " + threads);
+
                 return;
 
             } catch (JSONException | IOException exception) {
+
                 System.out.println(exception);
+
             }
             
         } catch (NumberFormatException e) {
+
             System.out.println(e);
+
          }
 
     }

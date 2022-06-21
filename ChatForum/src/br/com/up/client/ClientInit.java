@@ -12,7 +12,9 @@ public class ClientInit extends Thread {
     private Socket socket;
 
     public ClientInit(Socket socket) {
+
         this.socket = socket;
+
     }
 
     @Override
@@ -37,7 +39,9 @@ public class ClientInit extends Thread {
             }
 
         } catch (IOException | ClassNotFoundException | JSONException e) {
+
             System.out.println(e);
+
         }
 
     }

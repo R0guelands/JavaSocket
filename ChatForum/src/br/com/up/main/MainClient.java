@@ -41,10 +41,13 @@ public class MainClient {
             inputToServer.writeObject(message.toString());
 
             if (messageToServer.equals("exit")) {
+
                 inputToServer.close();
                 socket.close();
                 scanner.close();
+                
                 break;
+
             }
 
         }
