@@ -21,7 +21,7 @@ public class MainServer {
 
             Socket socket = server.accept();
             allConnections.add(socket);
-            System.out.println("Client connected : " + socket.getInetAddress());
+            System.out.println("Client connected: " + socket.getInetAddress()); 
             ServerInit session = new ServerInit(socket, allConnections);
             session.start();
 

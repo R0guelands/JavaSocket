@@ -3,8 +3,10 @@ package br.com.up.main;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-import br.com.up.client.ClientSocket;
-
+import br.com.up.client.ClientInit;
+import org.json.JSONObject;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;   
 
 public class MainClient {
     public static void main(String[] args) throws Exception {
@@ -12,15 +14,28 @@ public class MainClient {
         ObjectOutputStream inputToServer = null;
         Socket socket = new Socket("192.168.18.5", 9876);
         Scanner scanner = new Scanner(System.in);
-        ClientSocket cliente = new ClientSocket(socket);
+        ClientInit cliente = new ClientInit(socket);
+
+        System.out.println("Digite seu nome: ");
+        String nome = scanner.nextLine();
 
         cliente.start();
 
         while (true) {
 
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");  
+            LocalDateTime now = LocalDateTime.now();  
+
             inputToServer = new ObjectOutputStream(socket.getOutputStream());
+
             String messageToServer = scanner.nextLine();
-            inputToServer.writeObject(messageToServer);
+
+            JSONObject message = new JSONObject();
+            message.put("Identificador", nome);
+            message.put("Mensagem", messageToServer);
+            message.put("Data", dtf.format(now));
+
+            inputToServer.writeObject(message.toString());
 
             if (messageToServer.equals("exit")) {
                 inputToServer.close();

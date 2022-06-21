@@ -5,6 +5,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;   
+
 public class ServerChat extends Thread {
     
     private ArrayList <Socket> allConnections = new ArrayList<Socket>();
@@ -24,19 +29,27 @@ public class ServerChat extends Thread {
 
             while(true){
 
-                String message = scanner.nextLine();
+                String text = scanner.nextLine();
 
                 for (Socket socket : allConnections) {
 
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");  
+                    LocalDateTime now = LocalDateTime.now();  
+
+                    JSONObject message = new JSONObject();
+                    message.put("Identificador", "Admin");
+                    message.put("Mensagem", text);
+                    message.put("Data", dtf.format(now));
+
                     inputToClient = new ObjectOutputStream(socket.getOutputStream());
 
-                    inputToClient.writeObject("Admin: " + message);
+                    inputToClient.writeObject(message.toString());
 
                 }
 
             }
 
-        }catch (IOException e) {
+        }catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
