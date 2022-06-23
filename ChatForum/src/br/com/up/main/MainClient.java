@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class MainClient {
 
     // Defines the server ip and port
-    private static final String hostIP = "localhost";
+    private static final String hostIP = "192.168.1.105";
     private static final int port = 1234;
     
     public static void main(String[] args) throws Exception {
