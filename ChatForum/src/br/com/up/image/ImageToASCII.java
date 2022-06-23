@@ -16,7 +16,7 @@ public class ImageToASCII {
         try {
             URL url = new URL(imgurl);
             img = ImageIO.read(url);
-            img = resizeImage(img, 100, 50);
+            img = resizeImage(img, 100, 45);
             if (img == null) {
                 return "Erro";
             }
@@ -41,15 +41,23 @@ public class ImageToASCII {
     public String strChar(double g) {
         String str = " ";
         if (g >= 240) {
-            str = "&";
-        } else if (g >= 170) {
-            str = "#";
-        } else if (g >= 110) {
-            str = "!";
-        } else if (g >= 60) {
-            str = "l";
-        } else {
             str = " ";
+        } else if (g >= 210) {
+            str = ".";
+        } else if (g >= 190) {
+            str = "*";
+        } else if (g >= 170) {
+            str = "+";
+        } else if (g >= 120) {
+            str = "^";
+        } else if (g >= 110) {
+            str = "&";
+        } else if (g >= 80) {
+            str = "8";
+        } else if (g >= 60) {
+            str = "#";
+        } else {
+            str = "@";
         }
         return str;
     }
