@@ -34,10 +34,26 @@ public class ServerChat extends Thread {
             Scanner scanner = new Scanner(System.in);
 
             // Main server chat loop
-            while(true){
+            outer: while(true){
 
                 // Waits here until admin types something into the chat
                 String text = scanner.nextLine();
+
+                if (text.equalsIgnoreCase("/help") || text.equalsIgnoreCase("/h")) {
+
+                    System.out.println("Comandos disponíveis:\n'/help' & '/h' = Exibe este menu de ações\n'/online' = O servidor irá retornar quantas pessoas estão online no momento.");
+
+                    continue outer;
+
+                }
+
+                if (text.equalsIgnoreCase("/online")) {
+
+                    System.out.println("Pessoas online: " + allConnections.size());
+
+                    continue outer;
+
+                }
 
                 // Loop to send the admins message to all clients
                 for (Socket socket : allConnections) {

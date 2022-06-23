@@ -13,7 +13,7 @@ public class MainClient {
     // Defines the server ip and port
     private static final String hostIP = "localhost";
     private static final int port = 1234;
-
+    
     public static void main(String[] args) throws Exception {
 
         // Init the output to server line
@@ -56,7 +56,7 @@ public class MainClient {
             inputToServer.writeObject(message.toString());
 
             // If the message is exit closes the connection
-            if (messageToServer.equals("exit")) {
+            if (messageToServer.equals("/exit")) {
 
                 // Closes all parts of the connection
                 inputToServer.close();
