@@ -240,8 +240,8 @@ public class ServerInit extends Thread {
 
             }
 
-            // Catches if the client disconnected the wrong way or if there was an
-            // IOException
+        // Catches if the client disconnected the wrong way or if there was an
+        // IOException
         } catch (IOException | ClassNotFoundException e) {
 
             // Prints to the admin that the client disconnected the wrong way (it was
@@ -258,8 +258,8 @@ public class ServerInit extends Thread {
             // Closes the thread itself
             return;
 
-            // Catches if there was a Json problem (for example the client sent the wrong
-            // Json format)
+        // Catches if there was a Json problem (for example the client sent the wrong
+        // Json format)
         } catch (JSONException e) {
 
             // Try chatch because Json needs it
@@ -298,7 +298,7 @@ public class ServerInit extends Thread {
 
             }
 
-            // Catches if there was a problem counting threads
+        // Catches if there was a problem counting threads
         } catch (NumberFormatException e) {
 
             System.out.println(e);
