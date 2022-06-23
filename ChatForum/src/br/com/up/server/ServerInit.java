@@ -95,6 +95,7 @@ public class ServerInit extends Thread {
                     // Converts the link to ASCII 
                     String conversion = imageToASCII.convertToASCII(messageFromClient);
 
+                    // If the ASCII conversion fails it throws error
                     if (conversion == "Erro") {
                         
                         // Gets the current time
@@ -111,6 +112,7 @@ public class ServerInit extends Thread {
                         outputToClient = new ObjectOutputStream(socket.getOutputStream());
                         outputToClient.writeObject(message.toString());
 
+                    // Else it will proceed to display the image
                     } else {
 
                         // sets the message to the ASCII image

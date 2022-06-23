@@ -39,6 +39,7 @@ public class ServerChat extends Thread {
                 // Waits here until admin types something into the chat
                 String text = scanner.nextLine();
 
+                // If the message is help shows the commands
                 if (text.equalsIgnoreCase("/help") || text.equalsIgnoreCase("/h")) {
 
                     System.out.println("Comandos disponíveis:\n'/help' & '/h' = Exibe este menu de ações\n'/online' = O servidor irá retornar quantas pessoas estão online no momento.");
@@ -47,6 +48,7 @@ public class ServerChat extends Thread {
 
                 }
 
+                // If the message is online shows the number of online users
                 if (text.equalsIgnoreCase("/online")) {
 
                     System.out.println("Pessoas online: " + allConnections.size());
