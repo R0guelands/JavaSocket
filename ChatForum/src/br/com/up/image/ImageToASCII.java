@@ -17,6 +17,9 @@ public class ImageToASCII {
             URL url = new URL(imgurl);
             img = ImageIO.read(url);
             img = resizeImage(img, 100, 50);
+            if (img == null) {
+                return "Erro";
+            }
         } catch (IOException e) {
             return "Erro";
         }
