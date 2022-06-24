@@ -1,7 +1,6 @@
 package br.com.up.main;
 
 import java.io.DataOutputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 import br.com.up.client.ClientInit;
