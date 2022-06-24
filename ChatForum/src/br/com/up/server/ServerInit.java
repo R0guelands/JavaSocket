@@ -1,14 +1,11 @@
 package br.com.up.server;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.ClassNotFoundException;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.com.up.image.ImageToASCII;
@@ -41,8 +38,8 @@ public class ServerInit extends Thread {
     public void run() {
 
         // Init the output and input lines with that socket
-        ObjectOutputStream outputToClient = null;
-        ObjectInputStream inputFromClient = null;
+        DataOutputStream outputToClient = null;
+        DataInputStream inputFromClient = null;
 
         // Try chatch because the client can disconnect the wrong way, the client can
         // send the wrong json format, the json can fail or the socket can fail
@@ -66,8 +63,8 @@ public class ServerInit extends Thread {
                     message.put("Data", dtf.format(now));
 
                     // Sends the message to client
-                    outputToClient = new ObjectOutputStream(socket.getOutputStream());
-                    outputToClient.writeObject(message.toString());
+                    outputToClient = new DataOutputStream(socket.getOutputStream());
+                    outputToClient.writeUTF(message.toString());
 
                     // Adds one to the variable so that the client doesn't receives more than one
                     // hello from server
@@ -76,10 +73,10 @@ public class ServerInit extends Thread {
                 }
 
                 // Waits here until the respective client sends a message
-                inputFromClient = new ObjectInputStream(socket.getInputStream());
+                inputFromClient = new DataInputStream(socket.getInputStream());
 
                 // Reads the string
-                String stringFromClient = (String) inputFromClient.readObject();
+                String stringFromClient =  inputFromClient.readUTF();
 
                 // Gets the string as Json and reads all of it's parts
                 JSONObject objectFromClient = new JSONObject(stringFromClient);
@@ -109,8 +106,8 @@ public class ServerInit extends Thread {
                         message.put("Data", dtf.format(now));
 
                         // Sends the message to client
-                        outputToClient = new ObjectOutputStream(socket.getOutputStream());
-                        outputToClient.writeObject(message.toString());
+                        outputToClient = new DataOutputStream(socket.getOutputStream());
+                        outputToClient.writeUTF(message.toString());
 
                     // Else it will proceed to display the image
                     } else {
@@ -129,8 +126,8 @@ public class ServerInit extends Thread {
                         message.put("Data", dtf.format(now));
 
                         // Sends the message to client
-                        outputToClient = new ObjectOutputStream(socket.getOutputStream());
-                        outputToClient.writeObject(message.toString());
+                        outputToClient = new DataOutputStream(socket.getOutputStream());
+                        outputToClient.writeUTF(message.toString());
 
                     }
 
@@ -170,8 +167,8 @@ public class ServerInit extends Thread {
                     message.put("Data", dtf.format(now));
 
                     // Sends the message to client
-                    outputToClient = new ObjectOutputStream(socket.getOutputStream());
-                    outputToClient.writeObject(message.toString());
+                    outputToClient = new DataOutputStream(socket.getOutputStream());
+                    outputToClient.writeUTF(message.toString());
 
                 }
 
@@ -189,8 +186,8 @@ public class ServerInit extends Thread {
                     message.put("Data", dtf.format(now));
 
                     // Sends the message to client
-                    outputToClient = new ObjectOutputStream(socket.getOutputStream());
-                    outputToClient.writeObject(message.toString());
+                    outputToClient = new DataOutputStream(socket.getOutputStream());
+                    outputToClient.writeUTF(message.toString());
 
                 }
 
@@ -208,8 +205,8 @@ public class ServerInit extends Thread {
                     message.put("Data", dtf.format(now));
 
                     // Sends the message to client
-                    outputToClient = new ObjectOutputStream(socket.getOutputStream());
-                    outputToClient.writeObject(message.toString());
+                    outputToClient = new DataOutputStream(socket.getOutputStream());
+                    outputToClient.writeUTF(message.toString());
 
                     image ++;
 
@@ -231,8 +228,8 @@ public class ServerInit extends Thread {
                         message.put("Data", dateFromClient);
 
                         // Sends the message to the socket
-                        outputToClient = new ObjectOutputStream(s.getOutputStream());
-                        outputToClient.writeObject(message.toString());
+                        outputToClient = new DataOutputStream(s.getOutputStream());
+                        outputToClient.writeUTF(message.toString());
 
                     }
 
@@ -242,76 +239,12 @@ public class ServerInit extends Thread {
 
         // Catches if the client disconnected the wrong way or if there was an
         // IOException
-        } catch (ClassNotFoundException e) {
+        }  catch (Exception e) {
 
-            // Prints to the admin that the client disconnected the wrong way (it was
-            // problably ctrl+c)
-            System.out.println("Client " + socket.getInetAddress() + " disconnected using the wrong method.");
-
-            // Counts the number of threads and prints it to the admin
-            int threads = java.lang.Thread.activeCount() - 1;
+            System.out.println("Client disconnected: " + socket.getInetAddress() + " Because of some error.");
+            System.out.println(e);
+            int threads = java.lang.Thread.activeCount() -1;
             System.out.println("Threads: " + threads);
-
-            // Removes the socket from the global array
-            allConnections.remove(socket);
-
-            // Closes the thread itself
-            return;
-
-        // Catches if there was a Json problem (for example the client sent the wrong
-        // Json format)
-        } catch (IOException e) {
-
-            System.out.println(e);
-            allConnections.remove(socket);
-            return;
-        
-        }catch (JSONException e) {
-
-            // Try chatch because Json needs it
-            try {
-
-                // Gets the current time
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-                LocalDateTime now = LocalDateTime.now();
-
-                // Formats the message saying to the user that his Json format is wrong
-                JSONObject message = new JSONObject();
-                message.put("Identificador", "Server");
-                message.put("Mensagem",
-                        "Formatacao incorreta. Por favor refira-se ao padrao selecionado para tentar enviar mensagens a este servidor.");
-                message.put("Data", dtf.format(now));
-
-                // Sends the message to the client
-                outputToClient = new ObjectOutputStream(socket.getOutputStream());
-                outputToClient.writeObject(message.toString());
-
-                // Removes the socket from the global array
-                allConnections.remove(socket);
-
-                // Prints to the admin that the client was disconnected
-                System.out.println("Client " + socket.getInetAddress() + " disconnected because Json format is wrong.");
-
-                // Counts and prints the number of active threads
-                int threads = java.lang.Thread.activeCount() - 1;
-                System.out.println("Threads: " + threads);
-
-                return;
-
-            } catch (JSONException | IOException exception) {
-
-                System.out.println(exception);
-
-                allConnections.remove(socket);
-
-                return;
-
-            }
-
-        // Catches if there was a problem counting threads
-        } catch (NumberFormatException e) {
-
-            System.out.println(e);
 
             allConnections.remove(socket);
 

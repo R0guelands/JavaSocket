@@ -1,10 +1,8 @@
 package br.com.up.client;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.DataInputStream;
 import java.net.Socket;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ClientInit extends Thread {
@@ -27,7 +25,7 @@ public class ClientInit extends Thread {
         try {
             
             // Init the object to read messages from server
-            ObjectInputStream outputFromServer = null;
+            DataInputStream outputFromServer = null;
 
             // Prints to the user that the request was made
             System.out.println("Sending request to Socket Server");
@@ -36,10 +34,10 @@ public class ClientInit extends Thread {
             while (true) {
 
                 // Waits here until the serves sends something
-                outputFromServer = new ObjectInputStream(socket.getInputStream());
+                outputFromServer = new DataInputStream(socket.getInputStream());
 
                 // Gets the string from the server
-                String stringFromServer = (String) outputFromServer.readObject();
+                String stringFromServer = outputFromServer.readUTF();
 
                 // Gets the Json from the string and reads its parts
                 JSONObject objectFromServer = new JSONObject(stringFromServer);
@@ -52,9 +50,11 @@ public class ClientInit extends Thread {
 
             }
 
-        } catch (IOException | ClassNotFoundException | JSONException e) {
+        } catch (Exception e) {
 
             System.out.println(e);
+
+            return;
 
         }
 

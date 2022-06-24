@@ -1,4 +1,5 @@
 package br.com.up.server;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -28,7 +29,7 @@ public class ServerChat extends Thread {
         try {
 
             // Init the input line to client
-            ObjectOutputStream inputToClient = null;
+            DataOutputStream inputToClient = null;
 
             // Init a scanner to read keyboard
             Scanner scanner = new Scanner(System.in);
@@ -52,6 +53,8 @@ public class ServerChat extends Thread {
                 if (text.equalsIgnoreCase("/online")) {
 
                     System.out.println("Pessoas online: " + allConnections.size());
+                    int threads = java.lang.Thread.activeCount();
+                    System.out.println("Threads: " + threads);
 
                     continue outer;
 
@@ -71,8 +74,8 @@ public class ServerChat extends Thread {
                     message.put("Data", dtf.format(now));
 
                     // Sends the message
-                    inputToClient = new ObjectOutputStream(socket.getOutputStream());
-                    inputToClient.writeObject(message.toString());
+                    inputToClient = new DataOutputStream(socket.getOutputStream());
+                    inputToClient.writeUTF(message.toString());
 
                 }
 

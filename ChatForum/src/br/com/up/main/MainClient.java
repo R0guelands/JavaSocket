@@ -1,5 +1,6 @@
 package br.com.up.main;
 
+import java.io.DataOutputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
@@ -17,7 +18,7 @@ public class MainClient {
     public static void main(String[] args) throws Exception {
 
         // Init the output to server line
-        ObjectOutputStream inputToServer = null;
+        DataOutputStream inputToServer = null;
 
         // Init the socket to the serves ip and port
         Socket socket = new Socket(hostIP, port);
@@ -52,8 +53,8 @@ public class MainClient {
             message.put("Data", dtf.format(now));
 
             // Sends the message to server
-            inputToServer = new ObjectOutputStream(socket.getOutputStream());
-            inputToServer.writeObject(message.toString());
+            inputToServer = new DataOutputStream(socket.getOutputStream());
+            inputToServer.writeUTF(message.toString());
 
             // If the message is exit closes the connection
             if (messageToServer.equals("/exit")) {
