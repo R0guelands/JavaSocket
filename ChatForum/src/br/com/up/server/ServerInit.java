@@ -76,7 +76,7 @@ public class ServerInit extends Thread {
                 inputFromClient = new DataInputStream(socket.getInputStream());
 
                 // Reads the string
-                String stringFromClient =  inputFromClient.readUTF();
+                String stringFromClient = inputFromClient.readUTF();
 
                 // Gets the string as Json and reads all of it's parts
                 JSONObject objectFromClient = new JSONObject(stringFromClient);
